@@ -1,4 +1,4 @@
-package storage.core.lib.models.dto.ownership.addfunds;
+package storage.core.lib.models.dto.ownership.spendownership;
 
 import lcp.lib.communication.module.channel.ChannelMessagePayload;
 import lombok.AllArgsConstructor;
@@ -8,5 +8,5 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class AddFundsResponse extends ChannelMessagePayload {
+public class SpendOwnershipResponse extends ChannelMessagePayload {
 }

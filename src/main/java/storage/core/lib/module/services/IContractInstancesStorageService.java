@@ -1,25 +1,29 @@
 package storage.core.lib.module.services;
 
 import lcp.lib.models.contract.ContractInstance;
-import storage.core.lib.exceptions.ContractInstanceNotFoundException;
+import storage.core.lib.exceptions.database.DatabaseException;
+import storage.core.lib.exceptions.services.contractinstance.ContractInstanceNotFoundException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public interface IContractInstancesStorageService {
-    String saveContractInstance(ContractInstance contractInstance) throws IOException;
+    ContractInstance getContractInstance(String contractInstanceId) throws IOException, ContractInstanceNotFoundException, DatabaseException;
 
-    ContractInstance getContractInstance(String contractInstanceId) throws IOException, ContractInstanceNotFoundException;
+    String saveContractInstance(ContractInstance contractInstance) throws IOException, DatabaseException;
 
-    /*void storeGlobalSpace(String contractInstanceId, HashMap<String, TraceChange> updates)
+    // FIXME
+    /*void saveGlobalSpace(String contractInstanceId, HashMap<String, TraceChange> updates)
             throws IOException,
             ContractInstanceNotFoundException;*/
 
-    void storeStateMachine(String contractInstanceId, String partyName, String functionName, ArrayList<String> argumentsTypes)
+    void saveStateMachine(String contractInstanceId, String partyName, String functionName, ArrayList<String> argumentsTypes)
             throws IOException,
-            ContractInstanceNotFoundException;
+            ContractInstanceNotFoundException,
+            DatabaseException;
 
-    void storeStateMachine(String contractInstanceId, String obligationFunctionName)
+    void saveStateMachine(String contractInstanceId, String obligationFunctionName)
             throws IOException,
-            ContractInstanceNotFoundException;
+            ContractInstanceNotFoundException,
+            DatabaseException;
 }

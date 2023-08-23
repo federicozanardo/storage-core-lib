@@ -1,4 +1,4 @@
-package storage.core.lib.exceptions;
+package storage.core.lib.exceptions.services.contract;
 
 public class ContractNotFoundException extends Exception {
     public ContractNotFoundException() {

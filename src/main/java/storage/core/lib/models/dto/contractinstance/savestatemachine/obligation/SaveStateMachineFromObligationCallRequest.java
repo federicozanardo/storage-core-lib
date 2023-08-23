@@ -1,4 +1,4 @@
-package storage.core.lib.models.dto.contractinstance.storestatemachine.obligation;
+package storage.core.lib.models.dto.contractinstance.savestatemachine.obligation;
 
 import lcp.lib.communication.module.channel.ChannelMessagePayload;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class StoreStateMachineFromObligationCallRequest extends ChannelMessagePayload {
+public class SaveStateMachineFromObligationCallRequest extends ChannelMessagePayload {
     private final String contractInstanceId;
     private final String obligationFunctionName;
 }

@@ -1,4 +1,4 @@
-package storage.core.lib.models.dto.contractinstance.storestatemachine.function;
+package storage.core.lib.models.dto.ownership.addownerships;
 
 import lcp.lib.communication.module.channel.ChannelMessagePayload;
 import lombok.AllArgsConstructor;
@@ -8,5 +8,5 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class StoreStateMachineFromFunctionCallResponse extends ChannelMessagePayload {
+public class AddOwnershipsResponse extends ChannelMessagePayload {
 }

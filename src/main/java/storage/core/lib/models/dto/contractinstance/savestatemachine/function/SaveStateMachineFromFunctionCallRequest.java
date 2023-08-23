@@ -1,4 +1,4 @@
-package storage.core.lib.models.dto.contractinstance.storestatemachine.function;
+package storage.core.lib.models.dto.contractinstance.savestatemachine.function;
 
 import lcp.lib.communication.module.channel.ChannelMessagePayload;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Getter
 @ToString
-public class StoreStateMachineFromFunctionCallRequest extends ChannelMessagePayload {
+public class SaveStateMachineFromFunctionCallRequest extends ChannelMessagePayload {
     private final String contractInstanceId;
     private final String partyName;
     private final String functionName;

@@ -1,4 +1,4 @@
-package storage.core.lib.models.dto.ownership.getfund;
+package storage.core.lib.models.dto.contractinstance.savestatemachine.function;
 
 import lcp.lib.communication.module.channel.ChannelMessagePayload;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,5 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class GetFundRequest extends ChannelMessagePayload {
-    private final String address;
-    private final String ownershipId;
+public class SaveStateMachineFromFunctionCallResponse extends ChannelMessagePayload {
 }
