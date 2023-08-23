@@ -4,10 +4,24 @@ import lcp.lib.models.contract.Contract;
 import storage.core.lib.exceptions.database.DatabaseException;
 import storage.core.lib.exceptions.services.contract.ContractNotFoundException;
 
-import java.io.IOException;
-
 public interface IContractsStorageService {
-    String saveContract(Contract contract) throws IOException, DatabaseException;
 
-    Contract getContract(String contractId) throws IOException, ContractNotFoundException, DatabaseException;
+    /**
+     * Get the contract information, given a contract id.
+     *
+     * @param contractId: id of the contract to find in the storage.
+     * @return the contract information.
+     * @throws ContractNotFoundException: throws when the contract id is not referred to any contract saved in the storage.
+     * @throws DatabaseException:         throws when an error occurs while performing a database operation.
+     */
+    Contract getContract(String contractId) throws ContractNotFoundException, DatabaseException;
+
+    /**
+     * Save a new contract in the storage.
+     *
+     * @param contract: data of the contract to store.
+     * @return the id of the contract just saved.
+     * @throws DatabaseException: throws when an error occurs while performing a database operation.
+     */
+    String saveContract(Contract contract) throws DatabaseException;
 }
