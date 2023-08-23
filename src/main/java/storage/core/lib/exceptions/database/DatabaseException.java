@@ -4,15 +4,18 @@ import lombok.Getter;
 
 @Getter
 public class DatabaseException extends Exception {
-    private Exception exceptionFromDatabase;
+    private final String databaseName;
     private final String message;
+    private Exception exception;
 
-    public DatabaseException(String message) {
+    public DatabaseException(String databaseName, String message) {
+        this.databaseName = databaseName;
         this.message = message;
     }
 
-    public DatabaseException(String message, Exception exception) {
+    public DatabaseException(String databaseName, String message, Exception exception) {
+        this.databaseName = databaseName;
         this.message = message;
-        this.exceptionFromDatabase = exception;
+        this.exception = exception;
     }
 }
