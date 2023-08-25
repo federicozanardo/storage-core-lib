@@ -69,36 +69,9 @@ public class StorageModule extends Module {
     }
 
     @Override
-    public void send(String receiverModuleId, ChannelMessagePayload payload) {
-        logger.debug("[{}] payload: {}", new Object() {
-        }.getClass().getEnclosingMethod().getName(), payload);
-        ModuleChannel channel = this.findChannel(this.getId(), receiverModuleId);
-
-        if (channel != null) {
-            channel.send(new ChannelMessage(this.getId(), payload));
-        } else {
-            logger.error("Impossible to find a channel with {}!", receiverModuleId);
-        }
-    }
-
-    @Override
     public void receive(ChannelMessage message) {
         logger.debug("[{}] from: {}, payload: {}", new Object() {
         }.getClass().getEnclosingMethod().getName(), message.getSenderModuleId(), message.getPayload());
-    }
-
-    @Override
-    public ChannelMessage sendAndReceive(String receiverModuleId, ChannelMessagePayload payload) {
-        logger.debug("[{}] payload: {}", new Object() {
-        }.getClass().getEnclosingMethod().getName(), payload);
-        ModuleChannel channel = this.findChannel(this.getId(), receiverModuleId);
-
-        if (channel != null) {
-            return channel.sendAndReceive(new ChannelMessage(this.getId(), payload));
-        } else {
-            logger.error("Impossible to find a channel with {}!", receiverModuleId);
-            return null;
-        }
     }
 
     @Override
@@ -107,6 +80,36 @@ public class StorageModule extends Module {
         }.getClass().getEnclosingMethod().getName(), message.getSenderModuleId(), message.getPayload());
         ChannelMessagePayload payload = message.getPayload();
 
+        ChannelMessage response;
+
+        response = assetStorageRouter(payload);
+
+        if (response != null) {
+            return response;
+        }
+
+        response = contractStorageRouter(payload);
+
+        if (response != null) {
+            return response;
+        }
+
+        response = contractInstancesStorageRouter(payload);
+
+        if (response != null) {
+            return response;
+        }
+
+        response = ownershipStorageRouter(payload);
+
+        if (response != null) {
+            return response;
+        } else {
+            return new ChannelMessage(this.getId(), new RequestNotFound(message.getPayload().getClass().getSimpleName()));
+        }
+    }
+
+    private ChannelMessage assetStorageRouter(ChannelMessagePayload payload) {
         if (payload instanceof GetAssetInfoRequest) {
             try {
                 Asset assetInfo = assetsStorageService.getAssetInfo(((GetAssetInfoRequest) payload).getAssetId());
@@ -115,7 +118,13 @@ public class StorageModule extends Module {
                 // TODO: handle it
                 throw new RuntimeException(e);
             }
-        } else if (payload instanceof SaveContractRequest) {
+        }
+
+        return null;
+    }
+
+    private ChannelMessage contractStorageRouter(ChannelMessagePayload payload) {
+        if (payload instanceof SaveContractRequest) {
             Contract contractToSave = ((SaveContractRequest) payload).getContract();
 
             try {
@@ -135,7 +144,13 @@ public class StorageModule extends Module {
                 // TODO: handle it
                 throw new RuntimeException(e);
             }
-        } else if (payload instanceof SaveContractInstanceRequest) {
+        }
+
+        return null;
+    }
+
+    private ChannelMessage contractInstancesStorageRouter(ChannelMessagePayload payload) {
+        if (payload instanceof SaveContractInstanceRequest) {
             ContractInstance contractInstance = ((SaveContractInstanceRequest) payload).getContractInstance();
 
             try {
@@ -179,7 +194,13 @@ public class StorageModule extends Module {
                 // TODO: handle it
                 throw new RuntimeException(e);
             }
-        } else if (payload instanceof GetOwnershipRequest) {
+        }
+
+        return null;
+    }
+
+    private ChannelMessage ownershipStorageRouter(ChannelMessagePayload payload) {
+        if (payload instanceof GetOwnershipRequest) {
             String address = ((GetOwnershipRequest) payload).getAddress();
             String ownershipId = ((GetOwnershipRequest) payload).getOwnershipId();
 
@@ -223,8 +244,8 @@ public class StorageModule extends Module {
                 // TODO: handle it
                 throw new RuntimeException(e);
             }
-        } else {
-            return new ChannelMessage(this.getId(), new RequestNotFound(message.getPayload().getClass().getSimpleName()));
         }
+
+        return null;
     }
 }
